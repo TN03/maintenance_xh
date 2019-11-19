@@ -1,0 +1,4 @@
+tests/coverage
+vendor
+/composer.lock
+/nbproject/
