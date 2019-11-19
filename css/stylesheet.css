@@ -1,0 +1,24 @@
+/*
+ *Back-end
+ */
+.maintenance_logo {
+    float: left;
+    margin: 0 1em 0 0;
+}
+.maintenance_license {
+    text-align: justify;
+}
+.maintenance_formwrap {
+    width: 100%;
+    margin: 2em auto;
+    text-align: center;
+}
+.maintenance_hint {
+    
+}
+.maintenance_form {
+
+}
+#maintenance_button {
+    
+}
