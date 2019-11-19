@@ -26,7 +26,7 @@ namespace Maintenance;
 
 class Plugin {
 
-    const VERSION = '2.0beta2';
+    const VERSION = '2.0-beta.2';
 
     /**
      * @var string
