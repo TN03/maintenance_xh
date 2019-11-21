@@ -15,5 +15,8 @@ $plugin_tx['maintenance']['off']="Der Wartungsmodus ist ausgeschaltet.";
 $plugin_tx['maintenance']['toggle_mode']="Modus wechseln";
 $plugin_tx['maintenance']['toggle_on']="Wartungsmodus anschalten";
 $plugin_tx['maintenance']['toggle_off']="Wartungsmodus ausschalten";
+$plugin_tx['maintenance']['tab_title']="Wartungsmodus";
+$plugin_tx['maintenance']['tab_redirect']="Wartungsmodus für diese Seite aktivieren&nbsp;&nbsp;";
+$plugin_tx['maintenance']['tab_save']="Speichern";
 
 ?>

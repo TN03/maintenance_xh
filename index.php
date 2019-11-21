@@ -22,12 +22,24 @@
  * along with Maintenance_XH.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-if (file_exists($pth['folder']['downloads'] . '.maintenance')) {
+$maintenancePd = $pd_router->find_page($s);
+
+if (file_exists($pth['folder']['downloads'] . '.maintenance') || $maintenancePd['maintenance_redirect']) {
     if (!isset($_GET['login']) && !XH_ADM) {
         //header("Location: " . $pth['folder']['plugins'] . 'maintenance/html/maintenance.html', true, 302);
-        header($_SERVER["SERVER_PROTOCOL"] . " 503 Service Temporarily Unavailable", true, 503);
+        header($_SERVER["SERVER_PROTOCOL"] . " 503 Service Temporarily Unavailable",
+                true, 503);
         header('Retry-After: 3600'); //one hour
         echo file_get_contents($pth['folder']['plugins'] . 'maintenance/html/maintenance.html');
         exit;
     }
+}
+
+if (XH_ADM) {
+    $temp = new Maintenance\Plugin;
+    $temp->init();
+    if (file_exists($pth['folder']['downloads'] . '.maintenance') || $maintenancePd['maintenance_redirect']) {
+        $o = XH_message('warning', $plugin_tx['maintenance']['on']) . $o;
+    }
+    $temp = null;
 }

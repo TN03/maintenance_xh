@@ -15,5 +15,8 @@ $plugin_tx['maintenance']['off']="Maintenance-Mode is disabled.";
 $plugin_tx['maintenance']['toggle_mode']="Toggle Maintenance-Mode";
 $plugin_tx['maintenance']['toggle_on']="Enable Maintenance-Mode";
 $plugin_tx['maintenance']['toggle_off']="Disable Maintenance-Mode";
+$plugin_tx['maintenance']['tab_title']='Maintenance';
+$plugin_tx['maintenance']['tab_redirect']="Activate Maintenance-Mode for this page&nbsp;&nbsp;";
+$plugin_tx['maintenance']['tab_save']="Save";
 
 ?>

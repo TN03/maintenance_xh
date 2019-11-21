@@ -60,7 +60,8 @@ class Plugin {
     }
 
     public function init() {
-        global $pth, $o;
+        global $pth, $pd_router, $plugin_tx;
+        $pd_router->add_interest('maintenance_redirect');
         if (XH_ADM) {
             if (function_exists('XH_registerStandardPluginMenuItems')) {
                 XH_registerStandardPluginMenuItems(true);
@@ -68,6 +69,10 @@ class Plugin {
             if ($this->isAdministrationRequested()) {
                 $this->handleAdministration();
             }
+            $pd_router->add_tab(
+                $plugin_tx['maintenance']['tab_title'],
+                "{$pth['folder']['plugins']}maintenance/maintenance_view.php"
+            );
         }
     }
 

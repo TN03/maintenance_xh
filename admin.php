@@ -22,9 +22,11 @@
  * along with Maintenance_XH.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+/*
 $temp = new Maintenance\Plugin;
 $temp->init();
 if (file_exists($pth['folder']['downloads'] . '.maintenance')) {
     $o = XH_message('warning', $plugin_tx['maintenance']['on']) . $o;
 }
 $temp = null;
+ */
