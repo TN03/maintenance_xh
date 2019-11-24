@@ -22,7 +22,7 @@
  * along with Maintenance_XH.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-$maintenancePd = $pd_router->find_page($s);
+$maintenancePd = $pd_router->find_page(max($s, 0));
 
 if (file_exists($pth['folder']['downloads'] . '.maintenance') || $maintenancePd['maintenance_redirect']) {
     if (!isset($_GET['login']) && !XH_ADM) {
