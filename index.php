@@ -22,29 +22,53 @@
  * along with Maintenance_XH.  If not, see <http://www.gnu.org/licenses/>.
  */
 function hi_Maintenance() {
-    global $o, $pth, $plugin_tx, $pd_router, $s;
-    
+    global $o, $plugin_cf, $pth, $plugin_tx, $pd_router, $s;
+
+    $redir = FALSE;
+
+    //Fix problem with $s on first page
     $pd['maintenance_redirect'] = '';
     if ($s > -1) {
         $pd = $pd_router->find_page(max($s, 0));
     }
 
-    if (file_exists($pth['folder']['downloads'] . '.maintenance') || $pd['maintenance_redirect']) {
-        if (!isset($_GET['login']) && !XH_ADM) {
-            //header("Location: " . $pth['folder']['plugins'] . 'maintenance/html/maintenance.html', true, 302);
-            header($_SERVER["SERVER_PROTOCOL"] . " 503 Service Temporarily Unavailable",
-                    true, 503);
-            header('Retry-After: 3600'); //one hour
-            echo file_get_contents($pth['folder']['plugins'] . 'maintenance/html/maintenance.html');
-            exit;
+    if (file_exists($pth['folder']['downloads'] . '.maintenance')) {
+        $redir = $plugin_cf['maintenance']['url_global-redirects'] != '' 
+                ? $plugin_cf['maintenance']['url_global-redirects']
+                : $pth['folder']['plugins'] . 'maintenance/html/maintenance.html';
+        $msg = $plugin_tx['maintenance']['global-on'];
+        //TODO: prevent endless loop
+        /*if (true) { 
+            $redir = FALSE;
+            $msg = $plugin_tx['maintenance']['wrong_url'];
+            $o .= XH_message('fail', $msg);
+        }*/
+    } else {
+        if ($pd['maintenance_redirect']) {
+            $redir = $plugin_cf['maintenance']['url_single-redirects'] != '' 
+                    ? $plugin_cf['maintenance']['url_single-redirects']
+                    : $pth['folder']['plugins'] . 'maintenance/html/maintenance_single.html';
+            $msg = $plugin_tx['maintenance']['single-on'];
         }
+    }
+
+    if ($redir && !isset($_GET['login']) && !XH_ADM) {
+        $retryAfter = $plugin_cf['maintenance']['retry-after'] != ''
+                ? $plugin_cf['maintenance']['retry-after']
+                : 3600; //one hour
+            
+        header($_SERVER["SERVER_PROTOCOL"] . " 503 Service Temporarily Unavailable",
+                true, 503);
+        header('Retry-After: ' . $retryAfter);
+        echo file_get_contents($redir);
+        exit;
     }
 
     if (XH_ADM) {
         $temp = new Maintenance\Plugin;
         $temp->init();
-        if (file_exists($pth['folder']['downloads'] . '.maintenance') || $pd['maintenance_redirect']) {
-            $o = XH_message('warning', $plugin_tx['maintenance']['on']) . $o;
+        if ($redir) {
+            $o = XH_message('warning', $msg) . $o;
         }
     }
 }
