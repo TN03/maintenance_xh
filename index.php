@@ -21,25 +21,30 @@
  * You should have received a copy of the GNU General Public License
  * along with Maintenance_XH.  If not, see <http://www.gnu.org/licenses/>.
  */
+function hi_Maintenance() {
+    global $o, $pth, $plugin_tx, $pd_router, $s;
+    
+    $pd = $pd_router->find_page(max($s, 0));
 
-$maintenancePd = $pd_router->find_page(max($s, 0));
+    if (file_exists($pth['folder']['downloads'] . '.maintenance') || $pd['maintenance_redirect']) {
+        if (!isset($_GET['login']) && !XH_ADM) {
+            //header("Location: " . $pth['folder']['plugins'] . 'maintenance/html/maintenance.html', true, 302);
+            header($_SERVER["SERVER_PROTOCOL"] . " 503 Service Temporarily Unavailable",
+                    true, 503);
+            header('Retry-After: 3600'); //one hour
+            echo file_get_contents($pth['folder']['plugins'] . 'maintenance/html/maintenance.html');
+            exit;
+        }
+    }
 
-if (file_exists($pth['folder']['downloads'] . '.maintenance') || $maintenancePd['maintenance_redirect']) {
-    if (!isset($_GET['login']) && !XH_ADM) {
-        //header("Location: " . $pth['folder']['plugins'] . 'maintenance/html/maintenance.html', true, 302);
-        header($_SERVER["SERVER_PROTOCOL"] . " 503 Service Temporarily Unavailable",
-                true, 503);
-        header('Retry-After: 3600'); //one hour
-        echo file_get_contents($pth['folder']['plugins'] . 'maintenance/html/maintenance.html');
-        exit;
+    if (XH_ADM) {
+        $temp = new Maintenance\Plugin;
+        $temp->init();
+        if (file_exists($pth['folder']['downloads'] . '.maintenance') || $pd['maintenance_redirect']) {
+            $o = XH_message('warning', $plugin_tx['maintenance']['on']) . $o;
+        }
+        $temp = null;
     }
 }
 
-if (XH_ADM) {
-    $temp = new Maintenance\Plugin;
-    $temp->init();
-    if (file_exists($pth['folder']['downloads'] . '.maintenance') || $maintenancePd['maintenance_redirect']) {
-        $o = XH_message('warning', $plugin_tx['maintenance']['on']) . $o;
-    }
-    $temp = null;
-}
+hi_Maintenance();
