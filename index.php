@@ -24,7 +24,10 @@
 function hi_Maintenance() {
     global $o, $pth, $plugin_tx, $pd_router, $s;
     
-    $pd = $pd_router->find_page(max($s, 0));
+    $pd['maintenance_redirect'] = '';
+    if ($s > -1) {
+        $pd = $pd_router->find_page(max($s, 0));
+    }
 
     if (file_exists($pth['folder']['downloads'] . '.maintenance') || $pd['maintenance_redirect']) {
         if (!isset($_GET['login']) && !XH_ADM) {
@@ -43,7 +46,6 @@ function hi_Maintenance() {
         if (file_exists($pth['folder']['downloads'] . '.maintenance') || $pd['maintenance_redirect']) {
             $o = XH_message('warning', $plugin_tx['maintenance']['on']) . $o;
         }
-        $temp = null;
     }
 }
 
