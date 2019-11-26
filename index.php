@@ -37,12 +37,13 @@ function hi_Maintenance() {
                 ? $plugin_cf['maintenance']['url_global-redirects']
                 : $pth['folder']['plugins'] . 'maintenance/html/maintenance.html';
         $msg = $plugin_tx['maintenance']['global-on'];
-        //TODO: prevent endless loop
-        /*if (true) { 
+        //prevent endless loop
+        if (stripos($plugin_cf['maintenance']['url_global-redirects']
+                , CMSIMPLE_URL) !== FALSE) { 
             $redir = FALSE;
             $msg = $plugin_tx['maintenance']['wrong_url'];
             $o .= XH_message('fail', $msg);
-        }*/
+        }
     } else {
         if ($pd['maintenance_redirect']) {
             $redir = $plugin_cf['maintenance']['url_single-redirects'] != '' 
