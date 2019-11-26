@@ -45,7 +45,8 @@ function hi_Maintenance() {
             $o .= XH_message('fail', $msg);
         }
     } else {
-        if ($pd['maintenance_redirect']) {
+        if (isset($pd['maintenance_redirect'])
+                && $pd['maintenance_redirect'] == '1') {
             $redir = $plugin_cf['maintenance']['url_single-redirects'] != '' 
                     ? $plugin_cf['maintenance']['url_single-redirects']
                     : $pth['folder']['plugins'] . 'maintenance/html/maintenance_single.html';

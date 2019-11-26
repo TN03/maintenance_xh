@@ -61,7 +61,6 @@ class Plugin {
 
     public function init() {
         global $pth, $pd_router, $plugin_tx;
-        $pd_router->add_interest('maintenance_redirect');
         if (XH_ADM) {
             if (function_exists('XH_registerStandardPluginMenuItems')) {
                 XH_registerStandardPluginMenuItems(true);
@@ -69,11 +68,23 @@ class Plugin {
             if ($this->isAdministrationRequested()) {
                 $this->handleAdministration();
             }
-            $pd_router->add_tab(
-                $plugin_tx['maintenance']['tab_title'],
-                "{$pth['folder']['plugins']}maintenance/maintenance_view.php"
-            );
+            if (!$this->isOnepage()) {
+                $pd_router->add_interest('maintenance_redirect');
+                $pd_router->add_tab(
+                    $plugin_tx['maintenance']['tab_title'],
+                    "{$pth['folder']['plugins']}maintenance/maintenance_view.php"
+                );
+            }
         }
+    }
+    
+    private function isOnepage() {
+        global $pth;
+        $t = file_get_contents($pth['folder']['template'] . 'template.htm');
+        if (stripos($t, 'echo onepage') || stripos($t, 'echo multionepage') !== FALSE) {
+            return TRUE;
+        }
+        return FALSE;
     }
 
     /*
