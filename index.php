@@ -22,16 +22,12 @@
  * along with Maintenance_XH.  If not, see <http://www.gnu.org/licenses/>.
  */
 function hi_Maintenance() {
-    global $o, $plugin_cf, $pth, $plugin_tx, $pd_router, $s;
+    global $o, $plugin_cf, $pth, $plugin_tx, $pd_router, $pd_s;
 
     $redir = FALSE;
-
-    //Fix problem with $s on first page
     $pd['maintenance_redirect'] = '';
-    if ($s > -1) {
-        $pd = $pd_router->find_page(max($s, 0));
-    }
-
+    $pd = $pd_router->find_page($pd_s); //use $pd_s instead $s
+    
     if (file_exists($pth['folder']['downloads'] . '.maintenance')) {
         $redir = $plugin_cf['maintenance']['url_global-redirects'] != '' 
                 ? $plugin_cf['maintenance']['url_global-redirects']
