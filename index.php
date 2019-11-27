@@ -22,23 +22,26 @@
  * along with Maintenance_XH.  If not, see <http://www.gnu.org/licenses/>.
  */
 function hi_Maintenance() {
-    global $o, $plugin_cf, $pth, $plugin_tx, $pd_router, $pd_s;
+    global $o, $plugin_cf, $pth, $plugin_tx, $pd_router, $pd_s, $u;
 
     $redir = FALSE;
     $pd['maintenance_redirect'] = '';
     $pd = $pd_router->find_page($pd_s); //use $pd_s instead $s
     
-    if (file_exists($pth['folder']['downloads'] . '.maintenance')) {
+    if (file_exists($pth['folder']['downloads'] . '.maintenance')) {    
         $redir = $plugin_cf['maintenance']['url_global-redirects'] != '' 
                 ? $plugin_cf['maintenance']['url_global-redirects']
                 : $pth['folder']['plugins'] . 'maintenance/html/maintenance.html';
         $msg = $plugin_tx['maintenance']['global-on'];
         //prevent endless loop
-        if (stripos($plugin_cf['maintenance']['url_global-redirects']
-                , CMSIMPLE_URL) !== FALSE) { 
-            $redir = FALSE;
-            $msg = $plugin_tx['maintenance']['wrong_url'];
-            $o .= XH_message('fail', $msg);
+        foreach ($u as $url) {
+            if (stripos($plugin_cf['maintenance']['url_global-redirects']
+                , $url) !== FALSE) {
+                $redir = FALSE;
+                $msg = $plugin_tx['maintenance']['wrong_url'];
+                $o .= XH_message('fail', $msg);
+                break;
+            }
         }
     } else {
         if (isset($pd['maintenance_redirect'])
