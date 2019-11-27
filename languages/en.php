@@ -21,5 +21,7 @@ $plugin_tx['maintenance']['wrong_url']="Maintenance-plugin: Error! Internal URL 
 $plugin_tx['maintenance']['tab_title']='Maintenance';
 $plugin_tx['maintenance']['tab_redirect']="Activate maintenance-mode for this single page&nbsp;&nbsp;";
 $plugin_tx['maintenance']['tab_save']="Save";
+$plugin_tx['maintenance']['hint_linklist']="The following pages are under maintenance at the moment:";
+$plugin_tx['maintenance']['nbr_pages']="Page(s) found.";
 
 ?>

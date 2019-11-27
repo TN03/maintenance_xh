@@ -21,3 +21,7 @@ $plugin_tx['maintenance']['wrong_url']="Maintenance-Plugin: Fehler! Interne URL 
 $plugin_tx['maintenance']['tab_title']="Wartungsmodus";
 $plugin_tx['maintenance']['tab_redirect']="Wartungsmodus für diese Seite aktivieren&nbsp;&nbsp;";
 $plugin_tx['maintenance']['tab_save']="Speichern";
+$plugin_tx['maintenance']['hint_linklist']="Die folgenden Einzelseiten sind zur Zeit im Wartungsmodus:";
+$plugin_tx['maintenance']['nbr_pages']="Seite(n) gefunden.";
+
+?>

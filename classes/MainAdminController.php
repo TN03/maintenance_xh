@@ -53,7 +53,7 @@ class MainAdminController
 
     public function defaultAction()
     {
-        global $pth;
+        global $h, $pth, $u;
         
         if (!file_exists($pth['folder']['downloads'] . '.maintenance')) {
             $hint = $this->lang['off'];
@@ -65,6 +65,14 @@ class MainAdminController
             $label = $this->lang['toggle_off'];
             $action = 'disable';
         }
+        $pages = $this->maintenancePages();
+        $links = array();
+        if (count($pages) > 0) {
+            foreach ($pages as $page) {
+                $links[$page]['heading'] = $h[$page];
+                $links[$page]['url'] = $this->scriptName . '?'. $u[$page] . '&edit';
+            }
+        }
         $view = new View('main');
         $view->url = "{$this->scriptName}?&maintenance&normal";
         $view->admin = 'plugin_main';
@@ -72,11 +80,29 @@ class MainAdminController
         $view->hint = $hint;
         $view->label = $label;
         $view->action = $action;
+        $view->hintlinklist = $this->lang['hint_linklist'];
+        $view->nbrpages = $this->lang['nbr_pages'];
+        $view->count = count($pages);
+        $view->pagelinks = $links;
         //$cache = new CacheService;
         //$view->info = new HtmlString($cache->cacheInfo());
         $view->render();
     }
     
+    private function maintenancePages() {
+        global $pd_router;
+        $pages = array();
+        
+        $pd = $pd_router->find_all();
+        for ($i = 0; $i < count($pd); $i++) {
+            if (isset($pd[$i]['maintenance_redirect'])
+                    && $pd[$i]['maintenance_redirect'] == '1') {
+                $pages[] = $i;
+            }
+        }
+        return $pages;
+    }
+
     public function enableAction() {
         global $pth;
         
